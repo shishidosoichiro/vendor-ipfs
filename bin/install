@@ -6,33 +6,26 @@ set -eu
 cd "$(dirname "$0")/.."
 
 # Variables
-DEFAULT_VERSION=$(./bin/versions | tail -1)
-VERSION=${1:-$DEFAULT_VERSION}
+VERSION=${1}
 
-if [ -z "$VERSION" ]; then
-	echo "target version not specified." >&2
-	exit 1
-fi
-
-# specify url
 os=$(./bin/os)
 distro=$(./bin/distro)
+
 if [ $os = windows ]; then
-	DOWNLOAD_URL=<url>
+	DOWNLOAD_URL=https://github.com/ipfs/go-ipfs/releases/download/v$VERSION/go-ipfs_v${VERSION}_windows-amd64.zip
 elif [ $os = darwin ]; then
-	DOWNLOAD_URL=<url>
+	DOWNLOAD_URL=https://github.com/ipfs/go-ipfs/releases/download/v$VERSION/go-ipfs_v${VERSION}_darwin-amd64.tar.gz
 else
-	DOWNLOAD_URL=<url>
+	DOWNLOAD_URL=https://github.com/ipfs/go-ipfs/releases/download/v$VERSION/go-ipfs_v${VERSION}_linux-amd64.tar.gz
 fi
 
+# Clean
+clean() {
+	rm -rf temp
+}
+
 # Start
-echo "install: $VERSION"
-echo "clean: temp"
-rm -rf temp
-echo "download: $DOWNLOAD_URL"
+clean
 filename=$(./bin/download $DOWNLOAD_URL)
-echo "extract: $filename"
+echo "filename: $filename"
 ./bin/extract "$filename" "versions/$VERSION"
-echo "build $VERSION"
-./bin/build $VERSION
-exit 0

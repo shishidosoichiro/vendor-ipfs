@@ -17,5 +17,5 @@ os=$(./bin/os)
 if [ $os = windows ]; then
 	echo "$PWD/versions/$VERSION"
 else
-  echo "$PWD/versions/$VERSION/bin"
+  echo "$PWD/versions/$VERSION"
 fi
