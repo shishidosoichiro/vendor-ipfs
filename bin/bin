@@ -11,7 +11,7 @@ DEFAULT_VERSION=$(ls versions | tail -1)
 VERSION=${1:-$DEFAULT_VERSION}
 
 # OS
-os=$(./bin/os)
+os=$(vendor util os)
 
 # Path
 if [ $os = windows ]; then

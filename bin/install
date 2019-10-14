@@ -8,8 +8,7 @@ cd "$(dirname "$0")/.."
 # Variables
 VERSION=${1}
 
-os=$(./bin/os)
-distro=$(./bin/distro)
+os=$(vendor util os)
 
 if [ $os = windows ]; then
 	DOWNLOAD_URL=https://github.com/ipfs/go-ipfs/releases/download/v$VERSION/go-ipfs_v${VERSION}_windows-amd64.zip
@@ -26,6 +25,8 @@ clean() {
 
 # Start
 clean
-filename=$(./bin/download $DOWNLOAD_URL)
+mkdir -p temp
+cd temp
+filename=$(vendor util download $DOWNLOAD_URL)
 echo "filename: $filename"
-./bin/extract "$filename" "versions/$VERSION"
+vendor util extract "$filename" "versions/$VERSION"
